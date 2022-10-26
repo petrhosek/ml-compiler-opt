@@ -106,6 +106,12 @@ class LoadedModuleSpec:
   def build_command_line(self, local_dir: str) -> FullyQualifiedCmdLine:
     """Different LoadedModuleSpec objects must get different `local_dir`s."""
     context = self._create_files_and_get_context(local_dir)
+    for option in self.orig_options:
+        try:
+            option.format(context=context)
+        except IndexError as e:
+            logging.error('Option: %s' % option)
+            logging.error('Context: %s' % context)
     return tuple(option.format(context=context) for option in self.orig_options)
 
 

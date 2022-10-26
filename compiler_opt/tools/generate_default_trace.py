@@ -129,6 +129,7 @@ def worker(policy_path: Optional[str],
         logging.error('Failed to compile %s.', loaded_module_spec.name)
         results_queue.put(None)
   except BaseException as e:  # pylint: disable=broad-except
+    raise e
     results_queue.put(e)
 
 
